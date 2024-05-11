@@ -16,7 +16,7 @@ public class UserDto {
     private String phoneNumber;
     private String imageUrl;
     private String name;
-    private Boolean isHelper;
+    private Boolean isVolunteer;
 
 }
 
