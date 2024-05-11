@@ -8,28 +8,27 @@ import com.volodymyrvasylyshyn.helperserver.enums.ERole;
 import com.volodymyrvasylyshyn.helperserver.exeptions.EmailAlreadyExistException;
 import com.volodymyrvasylyshyn.helperserver.exeptions.EmailNotFoundException;
 import com.volodymyrvasylyshyn.helperserver.exeptions.OldPasswordIsIncorrectException;
+import com.volodymyrvasylyshyn.helperserver.exeptions.UserNotExistException;
 import com.volodymyrvasylyshyn.helperserver.model.User;
 import com.volodymyrvasylyshyn.helperserver.repository.UserRepository;
 import com.volodymyrvasylyshyn.helperserver.request.SignupRequest;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     public static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final EmailSenderService emailSenderService;
     private final BCryptPasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
 
     public UserDto getCurrentUserDto(Principal principal) {
         return getUserDtoByPrincipal(principal);
@@ -43,7 +42,7 @@ public class UserService {
         user.setEmail(userIn.getEmail());
         user.setImageUrl("https://cdn.pixabay.com/photo/2014/03/25/16/54/user-297566_640.png");
         user.setName(userIn.getName());
-        user.setIsHelper(userIn.getIsHelper());
+        user.setIsVolunteer(userIn.getIsVolunteer());
         user.setPassword(passwordEncoder.encode(userIn.getPassword()));
         user.getRoles().add(ERole.USER);
         System.out.println(userRepository.findUserByEmail(user.getEmail()).isPresent());
@@ -85,6 +84,41 @@ public class UserService {
         else {
             throw new EmailAlreadyExistException("Email already used");
         }
+    }
+    public void forgotPassword(String email) {
+        User user = userRepository.findUserByEmail(email).orElse(null);
+        if (user == null) {
+            LOG.error("User with email:{} not found ", email);
+            throw new UserNotExistException("User with email: "+email+" not found");
+        } else {
+            String resetPasswordToken = UUID.randomUUID().toString();
+            setNewResetPasswordToken(resetPasswordToken, email);
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Welcome to Hackathon. Please, visit next link: http://localhost:3000/forget/reset_password?token=%s",
+                    user.getUsername(),
+                    resetPasswordToken
+            );
+            emailSenderService.sendMail(email, "FORGOT YOUR PASSWORD", message);
+        }
+    }
+    public User getByResetToken(String resetPasswordToken) {
+        return userRepository.findUserByResetPasswordToken(resetPasswordToken).orElseThrow(() -> new UserNotExistException("User with token: " + resetPasswordToken + " not found"));
+    }
+    private void setNewResetPasswordToken(String token, String email) {
+        User user = userRepository.findUserByEmail(email).orElse(null);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        }
+
+    }
+    public void updateForgotPassword(User user, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodePassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodePassword);
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
     }
 
 

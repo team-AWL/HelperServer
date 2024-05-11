@@ -7,29 +7,26 @@ import com.volodymyrvasylyshyn.helperserver.response.MessageResponse;
 import com.volodymyrvasylyshyn.helperserver.security.JWTTokenProvider;
 import com.volodymyrvasylyshyn.helperserver.security.SecurityConstants;
 import com.volodymyrvasylyshyn.helperserver.service.UserService;
-import com.volodymyrvasylyshyn.helperserver.validations.ResponseErrorValidation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.ObjectUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@CrossOrigin
+
 @RestController
-@RequestMapping("/api/auth")
-@PreAuthorize("permitAll()")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
 
 
-    private final ResponseErrorValidation responseErrorValidation;
 
     private final UserService userService;
 
@@ -37,20 +34,15 @@ public class AuthController {
 
     private final JWTTokenProvider jwtTokenProvider;
 
-    public AuthController(ResponseErrorValidation responseErrorValidation, UserService userService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
-        this.responseErrorValidation = responseErrorValidation;
+    public AuthController(UserService userService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-
-
-    // TODO: Watch how to work handle error and in case change TokenSuccessResponse to JWTTokenResponse
     @PostMapping("/signin")
-    public ResponseEntity<Object> authenticateUser(@RequestBody LoginRequest loginRequest, BindingResult bindingResult){
-        ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
-        if (!ObjectUtils.isEmpty(errors)) return errors;
+    public ResponseEntity<Object> authenticateUser(@RequestBody LoginRequest loginRequest){
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getEmail()
                 , loginRequest.getPassword()
@@ -62,16 +54,16 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult){
-        ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
-        if (!ObjectUtils.isEmpty(errors)) return errors;
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest){
+
         userService.createUser(signupRequest);
-        return ResponseEntity.ok(new MessageResponse("User registreted successfully"));
+        return ResponseEntity.ok(new MessageResponse("User registered successfully"));
 
     }
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(){
+        SecurityContextHolder.clearContext();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

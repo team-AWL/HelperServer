@@ -15,7 +15,7 @@ public class SignupRequest {
     @NotBlank(message = "User email is required")
     private String email;
     private String name;
-    private Boolean isHelper;
+    private Boolean isVolunteer;
     @NotEmpty(message = "Password is required")
     @Size(min = 4)
     private String password;

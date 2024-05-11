@@ -18,11 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
-        proxyTargetClass = true
-)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -33,7 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
                 .and().csrf()
-//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .disable()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -44,7 +39,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/swagger-resources/**",
                         "/swagger-ui/**",
-                        "/v2/api-docs")
+                        "/v2/api-docs",
+                        "/api/user/forgot",
+                        "/api/user/forgot/*",
+                        "/api/auth/*")
                 .permitAll()
                 .anyRequest().authenticated();
 

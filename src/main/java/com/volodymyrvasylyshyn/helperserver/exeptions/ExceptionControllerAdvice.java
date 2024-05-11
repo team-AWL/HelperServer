@@ -16,9 +16,25 @@ public class ExceptionControllerAdvice {
     public final ResponseEntity<String> handlerCustomException(EmailNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
-//    }
+
     @ExceptionHandler(value = OldPasswordIsIncorrectException.class)
     public final ResponseEntity<String> handlerCustomException(OldPasswordIsIncorrectException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(value = UserNotExistException.class)
+    public final ResponseEntity<String> handlerCustomException(UserNotExistException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(value = AnnouncementNotFoundException.class)
+    public final ResponseEntity<String> handlerCustomException(AnnouncementNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(value = ImageNotFoundException.class)
+    public final ResponseEntity<String> handlerCustomException(ImageNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(value = AnnouncementAlreadyExistException.class)
+    public final ResponseEntity<String> handlerCustomException(AnnouncementAlreadyExistException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
