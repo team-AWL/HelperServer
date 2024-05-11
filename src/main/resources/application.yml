@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: Hackathon-Test-Task-Backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/helper-db
+    username: root
+    password: vasiliwin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
