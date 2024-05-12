@@ -8,7 +8,9 @@ import com.volodymyrvasylyshyn.helperserver.service.AnnouncementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -30,14 +32,14 @@ public class AnnouncementController {
     }
 
     @PostMapping("/telegram")
-    public ResponseEntity<MessageResponse> createAnnouncementFromTelegram(@RequestBody AnnouncementRequest announcementRequest) {
+    public ResponseEntity<MessageResponse> createAnnouncementFromTelegram(@RequestBody AnnouncementRequest announcementRequest,@RequestParam("file") MultipartFile file) {
         announcementService.createAnnouncementFromTelegram(announcementRequest);
         return new ResponseEntity<>(new MessageResponse("Announcement created successfully"), HttpStatus.CREATED);
     }
     @PostMapping
-    public ResponseEntity<MessageResponse> createAnnouncement(@RequestBody AnnouncementRequest announcementRequest, Principal principal) {
-        announcementService.createAnnouncement(announcementRequest, principal);
-        return new ResponseEntity<>(new MessageResponse("Announcement created successfully"), HttpStatus.CREATED);
+    public ResponseEntity<Announcement> createAnnouncement(@RequestBody AnnouncementRequest announcementRequest, Principal principal) throws IOException {
+        Announcement createdAnnouncement = announcementService.createAnnouncement(announcementRequest, principal);
+        return new ResponseEntity<>(createdAnnouncement, HttpStatus.CREATED);
     }
 
     @PostMapping("/{announcementId}")

@@ -4,6 +4,7 @@ import com.volodymyrvasylyshyn.helperserver.dto.user.UpdateEmailDto;
 import com.volodymyrvasylyshyn.helperserver.dto.user.UpdateOptionalUserInfoDto;
 import com.volodymyrvasylyshyn.helperserver.dto.user.UpdatePasswordDto;
 import com.volodymyrvasylyshyn.helperserver.dto.user.UserDto;
+import com.volodymyrvasylyshyn.helperserver.enums.AuthProvider;
 import com.volodymyrvasylyshyn.helperserver.enums.Role;
 import com.volodymyrvasylyshyn.helperserver.exeptions.EmailAlreadyExistException;
 import com.volodymyrvasylyshyn.helperserver.exeptions.EmailNotFoundException;
@@ -42,6 +43,7 @@ public class UserService {
         user.setEmail(userIn.getEmail());
         user.setImageUrl("https://cdn.pixabay.com/photo/2014/03/25/16/54/user-297566_640.png");
         user.setName(userIn.getName());
+        user.setProvider(AuthProvider.local);
         user.setPassword(passwordEncoder.encode(userIn.getPassword()));
         user.getRoles().add(Role.USER);
         System.out.println(userRepository.findUserByEmail(user.getEmail()).isPresent());
