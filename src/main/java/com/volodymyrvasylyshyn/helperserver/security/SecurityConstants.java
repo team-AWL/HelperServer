@@ -7,8 +7,8 @@ public class SecurityConstants {
    public static final String[] allowedUrls = {"/swagger-resources/**",
             "/swagger-ui/**",
             "/v2/api-docs",
-            "/api/v1/user/forgot",
-            "/api/v1/user/forgot/*",
+            "/api/v1/users/forgot",
+            "/api/v1/users/forgot/*",
             "/api/v1/auth/*",
             "/api/v1/announcements/telegram"};
     public static final String CONTENT_TYPE="application/json";
