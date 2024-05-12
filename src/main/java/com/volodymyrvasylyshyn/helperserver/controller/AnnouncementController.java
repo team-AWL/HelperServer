@@ -29,6 +29,11 @@ public class AnnouncementController {
         return new ResponseEntity<>(announcements, HttpStatus.OK);
     }
 
+    @PostMapping("/telegram")
+    public ResponseEntity<MessageResponse> createAnnouncementFromTelegram(@RequestBody AnnouncementRequest announcementRequest) {
+        announcementService.createAnnouncementFromTelegram(announcementRequest);
+        return new ResponseEntity<>(new MessageResponse("Announcement created successfully"), HttpStatus.CREATED);
+    }
     @PostMapping
     public ResponseEntity<MessageResponse> createAnnouncement(@RequestBody AnnouncementRequest announcementRequest, Principal principal) {
         announcementService.createAnnouncement(announcementRequest, principal);

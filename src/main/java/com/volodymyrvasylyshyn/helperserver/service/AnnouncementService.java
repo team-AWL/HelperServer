@@ -38,21 +38,28 @@ public class AnnouncementService {
         announcementRepository.save(createdAnnouncement);
     }
 
+    public void createAnnouncementFromTelegram(AnnouncementRequest announcementRequest) {
+        Announcement createdAnnouncement = announcementMapper.announcementRequestToAnnouncement(announcementRequest);
+        announcementRepository.save(createdAnnouncement);
+    }
+
+
+
     public List<Announcement> getAllAnnouncements() {
         return announcementRepository.findAll();
 
     }
 
-
 //    TODO: How to implement update for different fields
+
     public void updateAnnouncement(Long announcementId, AnnouncementRequest announcementRequest, Principal principal) {
 
     }
-
     public void deleteAnnouncement(Long announcementId) {
         Announcement deletedAnnouncement = announcementRepository.findById(announcementId).orElseThrow(()-> new AnnouncementNotFoundException("Announcement with id: "+ announcementId+ " not found" ));
         announcementRepository.delete(deletedAnnouncement);
     }
+
     public List<Announcement> findAnnouncementsSortedByDate(String order) {
         if (order.equals("desc")) {
             return announcementRepository.findAllByOrderBySeemLastTimeDesc();

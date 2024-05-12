@@ -9,7 +9,8 @@ public class SecurityConstants {
             "/v2/api-docs",
             "/api/v1/user/forgot",
             "/api/v1/user/forgot/*",
-            "/api/v1/auth/*"};
+            "/api/v1/auth/*",
+            "/api/v1/announcements/telegram"};
     public static final String CONTENT_TYPE="application/json";
 //    public static final long EXPIRATION_TIME= 600_000;// 10 min
 
