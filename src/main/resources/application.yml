@@ -2,9 +2,9 @@ spring:
   application:
     name: Hackathon-Test-Task-Backend
   datasource:
-    url: jdbc:mysql://localhost:3306/helper-db
-    username: root
-    password: vasiliwin
+    url: jdbc:mysql://w112g2a8y7szlqy6:cjkw30wbdswsdmd9@enqhzd10cxh7hv2e.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/byo2r8yytx7r4chy
+    username: w112g2a8y7szlqy6
+    password: cjkw30wbdswsdmd9
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
