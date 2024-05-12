@@ -2,12 +2,9 @@ package com.volodymyrvasylyshyn.helperserver.service;
 
 
 import com.volodymyrvasylyshyn.helperserver.exeptions.EmailAlreadyExistException;
-import com.volodymyrvasylyshyn.helperserver.exeptions.EmailNotFoundException;
 import com.volodymyrvasylyshyn.helperserver.model.Email;
 import com.volodymyrvasylyshyn.helperserver.repository.EmailRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class EmailService {

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.volodymyrvasylyshyn.helperserver.enums.ERole;
+import com.volodymyrvasylyshyn.helperserver.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,7 +33,6 @@ public class User implements UserDetails {
     private String phoneNumber;
     private String imageUrl; // TODO: Need to set  default url
     private String name;
-    private Boolean isVolunteer;
     @Column(columnDefinition = "text",unique = true)
     private String resetPasswordToken;
 
@@ -44,9 +43,9 @@ public class User implements UserDetails {
 
 
 
-    @ElementCollection(targetClass = ERole.class,fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<ERole> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_model_id", referencedColumnName = "id")

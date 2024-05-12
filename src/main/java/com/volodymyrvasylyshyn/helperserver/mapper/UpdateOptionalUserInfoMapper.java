@@ -1,4 +1,4 @@
-package com.volodymyrvasylyshyn.helperserver.facade;
+package com.volodymyrvasylyshyn.helperserver.mapper;
 
 
 
@@ -7,7 +7,7 @@ import com.volodymyrvasylyshyn.helperserver.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateOptionalUserInfoFacade {
+public class UpdateOptionalUserInfoMapper {
 
     public UpdateOptionalUserInfoDto userToUserDTO(User user){
         UpdateOptionalUserInfoDto updateOptionalUserInfoDto = new UpdateOptionalUserInfoDto();

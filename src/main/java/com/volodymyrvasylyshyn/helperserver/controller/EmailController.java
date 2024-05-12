@@ -5,6 +5,7 @@ import com.volodymyrvasylyshyn.helperserver.model.Email;
 import com.volodymyrvasylyshyn.helperserver.response.ApiResponse;
 import com.volodymyrvasylyshyn.helperserver.service.EmailSenderService;
 import com.volodymyrvasylyshyn.helperserver.service.EmailService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/emails")
+@RequiredArgsConstructor
 public class EmailController {
     private final EmailService emailService;
     private final EmailSenderService emailSenderService;
@@ -24,12 +26,6 @@ public class EmailController {
 //    TODO:To lombok
     private static final Logger LOG = LoggerFactory.getLogger(EmailController.class);
 
-
-
-    public EmailController(EmailService emailService, EmailSenderService emailSenderService) {
-        this.emailService = emailService;
-        this.emailSenderService = emailSenderService;
-    }
 
     @PostMapping
     public ResponseEntity<ApiResponse> addEmail(@RequestBody Email email) {

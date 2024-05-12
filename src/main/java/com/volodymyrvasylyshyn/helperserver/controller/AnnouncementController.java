@@ -29,6 +29,11 @@ public class AnnouncementController {
         return new ResponseEntity<>(announcements, HttpStatus.OK);
     }
 
+    @PostMapping("/telegram")
+    public ResponseEntity<MessageResponse> createAnnouncementFromTelegram(@RequestBody AnnouncementRequest announcementRequest) {
+        announcementService.createAnnouncementFromTelegram(announcementRequest);
+        return new ResponseEntity<>(new MessageResponse("Announcement created successfully"), HttpStatus.CREATED);
+    }
     @PostMapping
     public ResponseEntity<MessageResponse> createAnnouncement(@RequestBody AnnouncementRequest announcementRequest, Principal principal) {
         announcementService.createAnnouncement(announcementRequest, principal);
@@ -52,25 +57,20 @@ public class AnnouncementController {
         List<Announcement> announcements = announcementService.findAnnouncementsByKeyWords(keywords);
         return ResponseEntity.ok(announcements);
     }
-    @GetMapping("/findAnnouncementsInDateRange")
+    @GetMapping("/inDateRange")
     public ResponseEntity<List<Announcement>> findAnnouncementsInDateRange(@RequestBody DateRangeRequest dateRangeRequest){
         List<Announcement> announcements = announcementService.findAnnouncementsInDateRange(dateRangeRequest);
         return new ResponseEntity<>(announcements,HttpStatus.OK);
     } // union this
-    @GetMapping("/findAnnouncementsByLocation")
+    @GetMapping("/byLocation")
     public ResponseEntity<List<Announcement>> findAnnouncementsByLocation(@RequestParam("location") String location){
         List<Announcement> announcements = announcementService.findAnnouncementsByLocation(location);
         return new ResponseEntity<>(announcements,HttpStatus.OK);
     }
-    @GetMapping("/sortedByDateDesc")
-    public ResponseEntity<List<Announcement>> findAnnouncementsSortedByDateDesc(){
-        List<Announcement> announcements = announcementService.findAnnouncementsSortedByDateDesc();
+    @GetMapping("/sortedByDate/{order}")
+    public ResponseEntity<List<Announcement>> findAnnouncementsSortedByDate(@PathVariable("order") String order){
+        List<Announcement> announcements = announcementService.findAnnouncementsSortedByDate(order);
         return new ResponseEntity<>(announcements,HttpStatus.OK);
-    }
-    @GetMapping("/sortedByDateAsc")
-    public ResponseEntity<List<Announcement>> findAnnouncementsSortedByDateAsc(){
-        List<Announcement> announcements = announcementService.findAnnouncementsSortedByDateAsc();
-        return new ResponseEntity<>(announcements,HttpStatus.OK); // query param
     }
 
 }

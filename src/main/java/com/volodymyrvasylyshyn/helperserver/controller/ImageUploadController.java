@@ -15,20 +15,20 @@ import java.security.Principal;
 import java.util.zip.DataFormatException;
 
 @RestController
-@RequestMapping("api/v1/image")
+@RequestMapping("api/v1/images")
 @RequiredArgsConstructor
 public class ImageUploadController {
 
     private final ImageUploadService imageUploadService;
 
-    @PostMapping("/upload")
+    @PostMapping("/")
     public ResponseEntity<MessageResponse> uploadImageToUser(@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
 
         imageUploadService.uploadImageToUser(file, principal);
         return new ResponseEntity<>(new MessageResponse("Image Uploaded Successfully"), HttpStatus.OK);
     }
 
-    @PostMapping("/{announcementId}/upload")
+    @PostMapping("/{announcementId}")
     public ResponseEntity<MessageResponse> uploadImageToAnnouncement(@PathVariable("announcementId") String announcementId, @RequestParam("file") MultipartFile file) throws IOException {
         imageUploadService.uploadImageToAnnouncement(file, Long.parseLong(announcementId));
         return new ResponseEntity<>(new MessageResponse("Image Uploaded Successfully"), HttpStatus.OK);
@@ -41,17 +41,10 @@ public class ImageUploadController {
         return new ResponseEntity<>(userImage, HttpStatus.OK);
     }
 
-    @GetMapping("/{announcementId}/image")
+    @GetMapping("/{announcementId}")
     public ResponseEntity<ImageModel> getImageToAnnouncement(@PathVariable("announcementId") String announcementId){
         ImageModel needImage = imageUploadService.getImageToAnnouncement(Long.parseLong(announcementId));
         return new ResponseEntity<>(needImage, HttpStatus.OK);
-    }
-
-
-    @GetMapping("/user/{email}")
-    public ResponseEntity<ImageModel> getImageToUserByEmail(@PathVariable("email") String email){
-        ImageModel userImage = imageUploadService.getImageToUserByEmail(email);
-        return new ResponseEntity<>(userImage, HttpStatus.OK);
     }
 
 

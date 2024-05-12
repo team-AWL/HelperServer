@@ -1,5 +1,5 @@
 package com.volodymyrvasylyshyn.helperserver.enums;
 
-public enum ERole {
+public enum Role {
     USER
 }
