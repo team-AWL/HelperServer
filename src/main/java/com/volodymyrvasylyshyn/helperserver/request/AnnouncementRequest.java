@@ -17,6 +17,7 @@ public class AnnouncementRequest {
     private String location;
 
     private String description;
+    private String contactInformation;
 
     private String urlToGoogleForms;
 

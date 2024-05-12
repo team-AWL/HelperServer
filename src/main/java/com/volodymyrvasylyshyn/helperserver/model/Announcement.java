@@ -25,6 +25,8 @@ public class Announcement {
 
     private String location;
 
+    private String contactInformation;
+
     private String description;
 
     private String urlToGoogleForms;
