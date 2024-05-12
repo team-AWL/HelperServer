@@ -18,8 +18,7 @@ public class AnnouncementRequest {
 
     private String description;
     private String contactInformation;
-
-    private String urlToGoogleForms;
+    private String imageUrl;
 
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate seemLastTime;

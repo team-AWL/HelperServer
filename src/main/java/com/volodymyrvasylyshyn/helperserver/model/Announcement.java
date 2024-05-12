@@ -29,7 +29,7 @@ public class Announcement {
 
     private String description;
 
-    private String urlToGoogleForms;
+    private String imageUrl;
 
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate seemLastTime;
