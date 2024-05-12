@@ -54,20 +54,18 @@ public class ImageUploadService {
         userRepository.save(user);
     }
 
-    public void uploadImageToAnnouncement(MultipartFile file, Long announcementId) throws IOException {
-        ImageModel newsImage = imageRepository.findByAnnouncementId(announcementId).orElse(null);
-        if (!ObjectUtils.isEmpty(newsImage)) {
-            imageRepository.delete(newsImage);
-        }
-        Announcement announcement = announcementRepository.findById(announcementId).orElseThrow(() -> new AnnouncementNotFoundException("Announcement with id:" + announcementId + " not found"));
-        ImageModel imageModel = new ImageModel();
-        imageModel.setAnnouncement(announcement);
-        imageModel.setImageBytes(compressBytes(file.getBytes()));
-        imageModel.setName(file.getOriginalFilename());
-        announcement.setImageModel(imageModel);
-        imageRepository.save(imageModel);
-        announcementRepository.save(announcement);
-    }
+//    public void uploadImageToAnnouncement(MultipartFile file, Long announcementId) throws IOException {
+//        ImageModel newsImage = imageRepository.findByAnnouncementId(announcementId).orElse(null);
+//        if (!ObjectUtils.isEmpty(newsImage)) {
+//            imageRepository.delete(newsImage);
+//        }
+//        Announcement announcement = announcementRepository.findById(announcementId).orElseThrow(() -> new AnnouncementNotFoundException("Announcement with id:" + announcementId + " not found"));
+//        ImageModel imageModel = new ImageModel();
+//        imageModel.setImageBytes(compressBytes(file.getBytes()));
+//        imageModel.setName(file.getOriginalFilename());
+//        imageRepository.save(imageModel);
+//        announcementRepository.save(announcement);
+//    }
 
 
 
@@ -91,19 +89,19 @@ public class ImageUploadService {
         return imageModel;
 
     }
-    public ImageModel getImageToAnnouncement(Long announcementId) {
-        ImageModel imageModel = imageRepository.findByAnnouncementId(announcementId)
-                .orElseThrow(() -> new ImageNotFoundException("Cannot find image to Announcement: " + announcementId));
-
-        if(!ObjectUtils.isEmpty(imageModel)){
-
-            imageModel.setImageBytes(decompressBytes(imageModel.getImageBytes()));
-
-        }
-
-        return imageModel;
-
-    }
+//    public ImageModel getImageToAnnouncement(Long announcementId) {
+//        ImageModel imageModel = imageRepository.findByAnnouncementId(announcementId)
+//                .orElseThrow(() -> new ImageNotFoundException("Cannot find image to Announcement: " + announcementId));
+//
+//        if(!ObjectUtils.isEmpty(imageModel)){
+//
+//            imageModel.setImageBytes(decompressBytes(imageModel.getImageBytes()));
+//
+//        }
+//
+//        return imageModel;
+//
+//    }
     private byte[] compressBytes(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setInput(data);

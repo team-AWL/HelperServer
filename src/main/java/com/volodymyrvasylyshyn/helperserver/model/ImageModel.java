@@ -17,7 +17,5 @@ public class ImageModel {
     private byte[] imageBytes;
     @OneToOne(mappedBy = "imageModel")
     private User user;
-    @OneToOne(mappedBy = "imageModel")
-    private Announcement announcement;
 
 }

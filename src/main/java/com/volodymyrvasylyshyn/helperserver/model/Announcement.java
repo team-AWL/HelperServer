@@ -39,9 +39,5 @@ public class Announcement {
     @JsonIgnore
     private User announcementCreator;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_model_id", referencedColumnName = "id")
-    private ImageModel imageModel;
-
 
 }

@@ -32,18 +32,27 @@ public class AnnouncementController {
     }
 
     @PostMapping("/telegram")
-    public ResponseEntity<MessageResponse> createAnnouncementFromTelegram(@RequestBody AnnouncementRequest announcementRequest,@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<MessageResponse> createAnnouncementFromTelegram(
+            @RequestBody AnnouncementRequest announcementRequest
+    ) {
         announcementService.createAnnouncementFromTelegram(announcementRequest);
         return new ResponseEntity<>(new MessageResponse("Announcement created successfully"), HttpStatus.CREATED);
     }
     @PostMapping
-    public ResponseEntity<Announcement> createAnnouncement(@RequestBody AnnouncementRequest announcementRequest, Principal principal) throws IOException {
+    public ResponseEntity<Announcement> createAnnouncement(
+            @RequestBody AnnouncementRequest announcementRequest,
+            Principal principal
+    ) {
         Announcement createdAnnouncement = announcementService.createAnnouncement(announcementRequest, principal);
         return new ResponseEntity<>(createdAnnouncement, HttpStatus.CREATED);
     }
 
     @PostMapping("/{announcementId}")
-    public ResponseEntity<MessageResponse> updateAnnouncement(@RequestBody AnnouncementRequest announcementRequest, @PathVariable("announcementId") Long announcementId, Principal principal) {
+    public ResponseEntity<MessageResponse> updateAnnouncement(
+            @RequestBody AnnouncementRequest announcementRequest,
+            @PathVariable("announcementId") Long announcementId,
+            Principal principal
+    ) {
         announcementService.updateAnnouncement(announcementId, announcementRequest, principal);
         return new ResponseEntity<>(new MessageResponse("Announcement updated successfully"), HttpStatus.OK);
     }
@@ -54,8 +63,8 @@ public class AnnouncementController {
         return new ResponseEntity<>(new MessageResponse("Announcement deleted successfully"), HttpStatus.OK);
     }
 
-    @GetMapping("/search/{keywords}")
-    public ResponseEntity<List<Announcement>> findAnnouncementsByKeyWords(@PathVariable("keywords") String keywords){
+    @GetMapping("/search")
+    public ResponseEntity<List<Announcement>> findAnnouncementsByKeyWords(@RequestParam("keywords") String keywords){
         List<Announcement> announcements = announcementService.findAnnouncementsByKeyWords(keywords);
         return ResponseEntity.ok(announcements);
     }

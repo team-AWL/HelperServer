@@ -12,7 +12,7 @@ public interface ImageModelRepository extends JpaRepository<ImageModel,Long> {
 
     Optional<ImageModel> findByUserId(Long userId);
 
-    Optional<ImageModel> findByAnnouncementId(Long announcementId);
+//    Optional<ImageModel> findByAnnouncementId(Long announcementId);
 
 
 

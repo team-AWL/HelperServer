@@ -28,12 +28,12 @@ public class ImageUploadController {
         return new ResponseEntity<>(new MessageResponse("Image Uploaded Successfully"), HttpStatus.OK);
     }
 
-    @PostMapping("/{announcementId}")
-    public ResponseEntity<MessageResponse> uploadImageToAnnouncement(@PathVariable("announcementId") String announcementId, @RequestParam("file") MultipartFile file) throws IOException {
-        imageUploadService.uploadImageToAnnouncement(file, Long.parseLong(announcementId));
-        return new ResponseEntity<>(new MessageResponse("Image Uploaded Successfully"), HttpStatus.OK);
-
-    }
+//    @PostMapping("/{announcementId}")
+//    public ResponseEntity<MessageResponse> uploadImageToAnnouncement(@PathVariable("announcementId") String announcementId, @RequestParam("file") MultipartFile file) throws IOException {
+//        imageUploadService.uploadImageToAnnouncement(file, Long.parseLong(announcementId));
+//        return new ResponseEntity<>(new MessageResponse("Image Uploaded Successfully"), HttpStatus.OK);
+//
+//    }
 
     @GetMapping("/profileImage")
     public ResponseEntity<ImageModel> getImageToUser(Principal principal) {
@@ -41,11 +41,11 @@ public class ImageUploadController {
         return new ResponseEntity<>(userImage, HttpStatus.OK);
     }
 
-    @GetMapping("/{announcementId}")
-    public ResponseEntity<ImageModel> getImageToAnnouncement(@PathVariable("announcementId") String announcementId){
-        ImageModel needImage = imageUploadService.getImageToAnnouncement(Long.parseLong(announcementId));
-        return new ResponseEntity<>(needImage, HttpStatus.OK);
-    }
+//    @GetMapping("/{announcementId}")
+//    public ResponseEntity<ImageModel> getImageToAnnouncement(@PathVariable("announcementId") String announcementId){
+//        ImageModel needImage = imageUploadService.getImageToAnnouncement(Long.parseLong(announcementId));
+//        return new ResponseEntity<>(needImage, HttpStatus.OK);
+//    }
 
 
 }
