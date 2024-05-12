@@ -2,11 +2,13 @@ package com.volodymyrvasylyshyn.helperserver.controller;
 
 import com.volodymyrvasylyshyn.helperserver.request.LoginRequest;
 import com.volodymyrvasylyshyn.helperserver.request.SignupRequest;
+import com.volodymyrvasylyshyn.helperserver.response.ApiResponse;
 import com.volodymyrvasylyshyn.helperserver.response.JWTTokenSuccessResponse;
 import com.volodymyrvasylyshyn.helperserver.response.MessageResponse;
 import com.volodymyrvasylyshyn.helperserver.security.JWTTokenProvider;
 import com.volodymyrvasylyshyn.helperserver.security.SecurityConstants;
 import com.volodymyrvasylyshyn.helperserver.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,11 +24,9 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auths")
+@RequiredArgsConstructor
 public class AuthController {
-
-
-
 
     private final UserService userService;
 
@@ -34,14 +34,8 @@ public class AuthController {
 
     private final JWTTokenProvider jwtTokenProvider;
 
-    public AuthController(UserService userService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
     @PostMapping("/signin")
-    public ResponseEntity<Object> authenticateUser(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<Object> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getEmail()
@@ -54,15 +48,15 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest){
+    public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
 
         userService.createUser(signupRequest);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully"));
+        return ResponseEntity.ok(new ApiResponse(true, "User registered successfully"));
 
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(){
+    public ResponseEntity<String> logout() {
         SecurityContextHolder.clearContext();
         return new ResponseEntity<>(HttpStatus.OK);
     }

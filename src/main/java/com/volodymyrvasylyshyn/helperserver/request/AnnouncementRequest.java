@@ -1,6 +1,7 @@
 package com.volodymyrvasylyshyn.helperserver.request;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class AnnouncementRequest {
 
     private String urlToGoogleForms;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate seemLastTime;
 
 }

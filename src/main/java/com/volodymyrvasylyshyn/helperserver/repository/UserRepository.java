@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserById(Long id);
     Optional<User> findUserByEmail(String email);
-    @Query("select new com.volodymyrvasylyshyn.helperserver.dto.user.UserDto(u.id, u.email, u.phoneNumber, u.imageUrl, u.name, u.isVolunteer) from User as u where u.email = :email")
+    @Query("select new com.volodymyrvasylyshyn.helperserver.dto.user.UserDto(u.email, u.phoneNumber, u.imageUrl, u.name) from User as u where u.email = :email")
     Optional<UserDto> findUserDtoByEmail(@Param("email") String email);
 
     Optional<User> findUserByResetPasswordToken(String resetPasswordToken);

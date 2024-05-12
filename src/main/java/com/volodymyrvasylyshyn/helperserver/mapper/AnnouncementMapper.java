@@ -1,4 +1,4 @@
-package com.volodymyrvasylyshyn.helperserver.facade;
+package com.volodymyrvasylyshyn.helperserver.mapper;
 
 
 import com.volodymyrvasylyshyn.helperserver.model.Announcement;
@@ -6,7 +6,7 @@ import com.volodymyrvasylyshyn.helperserver.request.AnnouncementRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AnnouncementFacade {
+public class AnnouncementMapper {
 
 
     public Announcement announcementRequestToAnnouncement(AnnouncementRequest announcementRequest){

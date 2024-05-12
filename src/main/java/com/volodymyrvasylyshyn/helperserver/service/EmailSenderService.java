@@ -1,5 +1,6 @@
 package com.volodymyrvasylyshyn.helperserver.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,15 +12,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class EmailSenderService {
-    @Autowired
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
     private final Environment env;
 
-    public EmailSenderService(Environment env) {
-        this.env = env;
-    }
 
     public void sendMail(String toMail, String subject, String message) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();

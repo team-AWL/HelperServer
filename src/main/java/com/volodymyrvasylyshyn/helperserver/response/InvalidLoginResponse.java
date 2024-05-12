@@ -1,14 +1,9 @@
 package com.volodymyrvasylyshyn.helperserver.response;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class InvalidLoginResponse {
-    private final String email;
-    private final String password;
-
-    public InvalidLoginResponse() {
-        this.email = "Invalid Email";
-        this.password = "Invalid Password";
-    }
+    private String email = "Invalid Email";
+    private String password = "Invalid Password";
 }

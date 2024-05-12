@@ -4,7 +4,7 @@ import com.volodymyrvasylyshyn.helperserver.dto.user.UpdateEmailDto;
 import com.volodymyrvasylyshyn.helperserver.dto.user.UpdateOptionalUserInfoDto;
 import com.volodymyrvasylyshyn.helperserver.dto.user.UpdatePasswordDto;
 import com.volodymyrvasylyshyn.helperserver.dto.user.UserDto;
-import com.volodymyrvasylyshyn.helperserver.enums.ERole;
+import com.volodymyrvasylyshyn.helperserver.enums.Role;
 import com.volodymyrvasylyshyn.helperserver.exeptions.EmailAlreadyExistException;
 import com.volodymyrvasylyshyn.helperserver.exeptions.EmailNotFoundException;
 import com.volodymyrvasylyshyn.helperserver.exeptions.OldPasswordIsIncorrectException;
@@ -42,9 +42,8 @@ public class UserService {
         user.setEmail(userIn.getEmail());
         user.setImageUrl("https://cdn.pixabay.com/photo/2014/03/25/16/54/user-297566_640.png");
         user.setName(userIn.getName());
-        user.setIsVolunteer(userIn.getIsVolunteer());
         user.setPassword(passwordEncoder.encode(userIn.getPassword()));
-        user.getRoles().add(ERole.USER);
+        user.getRoles().add(Role.USER);
         System.out.println(userRepository.findUserByEmail(user.getEmail()).isPresent());
         try {
             userRepository.save(user);
@@ -126,7 +125,7 @@ public class UserService {
         User user = getUserByPrincipal(principal);
         boolean isMatchesPassword = isTruePassword(updatePasswordDto,user);
         if (isMatchesPassword){
-            user.setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
+            user.setPassword(passwordEncoder.encode(updatePasswordDto.newPassword()));
             return "Password change successfully";
         }
         else {
@@ -136,7 +135,7 @@ public class UserService {
 
     public boolean isTruePassword(UpdatePasswordDto updatePasswordDto,User user){
         if(user != null){
-            return passwordEncoder.matches(updatePasswordDto.getOldPassword(),user.getPassword());
+            return passwordEncoder.matches(updatePasswordDto.oldPassword(),user.getPassword());
         }
         else {
             return false;
