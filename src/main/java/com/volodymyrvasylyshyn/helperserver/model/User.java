@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.volodymyrvasylyshyn.helperserver.enums.AuthProvider;
 import com.volodymyrvasylyshyn.helperserver.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -40,7 +42,11 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "announcementCreator",orphanRemoval = true)
     private List<Announcement> createdAnnouncements;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
 
+    private String providerId;
 
 
     @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)

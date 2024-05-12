@@ -9,12 +9,16 @@ import com.volodymyrvasylyshyn.helperserver.repository.AnnouncementRepository;
 import com.volodymyrvasylyshyn.helperserver.repository.UserRepository;
 import com.volodymyrvasylyshyn.helperserver.request.AnnouncementRequest;
 import com.volodymyrvasylyshyn.helperserver.request.DateRangeRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AnnouncementService {
 
     private final AnnouncementRepository announcementRepository;
@@ -22,20 +26,14 @@ public class AnnouncementService {
     private final AnnouncementMapper announcementMapper;
     private final UserService userService;
 
-    public AnnouncementService(AnnouncementRepository announcementRepository, UserRepository userRepository, AnnouncementMapper announcementMapper, UserService userService) {
-        this.announcementRepository = announcementRepository;
-        this.userRepository = userRepository;
-        this.announcementMapper = announcementMapper;
-        this.userService = userService;
-    }
 
-    public void createAnnouncement(AnnouncementRequest announcementRequest, Principal principal) {
+    public Announcement createAnnouncement(AnnouncementRequest announcementRequest, Principal principal) {
         User user = userService.getCurrentUser(principal);
         Announcement createdAnnouncement = announcementMapper.announcementRequestToAnnouncement(announcementRequest);
         createdAnnouncement.setAnnouncementCreator(user);
         user.getCreatedAnnouncements().add(createdAnnouncement);
         userRepository.save(user);
-        announcementRepository.save(createdAnnouncement);
+        return announcementRepository.save(createdAnnouncement);
     }
 
     public void createAnnouncementFromTelegram(AnnouncementRequest announcementRequest) {

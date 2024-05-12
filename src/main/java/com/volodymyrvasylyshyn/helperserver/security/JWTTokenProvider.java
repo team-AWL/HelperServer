@@ -33,6 +33,18 @@ public class JWTTokenProvider {
         return Jwts.builder().setSubject(userId).setClaims(claimsMap).setIssuedAt(now)
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET).compact();
     }
+    public String generateOauth2Token(Authentication authentication){
+        UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
+        Date now = new Date(System.currentTimeMillis());
+        String userId = Long.toString(user.getId());
+
+        Map<String, Object> claimsMap = new HashMap<>();
+        claimsMap.put("id", userId);
+        claimsMap.put("email", user.getEmail());
+        claimsMap.put("authories", authentication.getAuthorities());
+        return Jwts.builder().setSubject(userId).setClaims(claimsMap).setIssuedAt(now)
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET).compact();
+    }
 
     public boolean validateToken (String token){
         try {

@@ -21,6 +21,14 @@ public class ExceptionControllerAdvice {
     public final ResponseEntity<String> handlerCustomException(OldPasswordIsIncorrectException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(value = OAuth2AuthenticationProcessingException.class)
+    public final ResponseEntity<String> handlerCustomException(OAuth2AuthenticationProcessingException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(value = BadRequestException.class)
+    public final ResponseEntity<String> handlerCustomException(BadRequestException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(value = UserNotExistException.class)
     public final ResponseEntity<String> handlerCustomException(UserNotExistException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
